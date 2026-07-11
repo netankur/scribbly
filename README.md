@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="ic_launcher.png" alt="Scribbly Logo" width="128">
+  <img src="android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="Scribbly Logo" width="128">
   
   # Scribbly
   **An elegant, immersive note-taking and canvas drawing app built with Flutter.**
@@ -45,7 +45,7 @@ Scribbly is designed with a premium, iOS-inspired aesthetic (utilizing Cupertino
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/scribbly.git
+   git clone https://github.com/netankur/scribbly.git
    ```
 2. Navigate into the directory:
    ```bash
