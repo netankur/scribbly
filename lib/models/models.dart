@@ -154,6 +154,7 @@ class CanvasDrawing {
   DateTime createdAt;
   DateTime updatedAt;
   String? previewImagePath;
+  int? backgroundColorValue;
 
   CanvasDrawing({
     required this.id,
@@ -162,6 +163,7 @@ class CanvasDrawing {
     required this.createdAt,
     required this.updatedAt,
     this.previewImagePath,
+    this.backgroundColorValue,
   });
 
   Map<String, dynamic> toMap() {
@@ -172,6 +174,7 @@ class CanvasDrawing {
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'previewImagePath': previewImagePath,
+      'backgroundColorValue': backgroundColorValue,
     };
   }
 
@@ -183,6 +186,7 @@ class CanvasDrawing {
       createdAt: DateTime.parse(map['createdAt']),
       updatedAt: DateTime.parse(map['updatedAt']),
       previewImagePath: map['previewImagePath'],
+      backgroundColorValue: map['backgroundColorValue'],
     );
   }
 }

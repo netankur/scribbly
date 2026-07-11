@@ -30,6 +30,16 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
   double _strokeWidth = 4.0;
   final GlobalKey _globalKey = GlobalKey();
 
+  Color _canvasBackgroundColor = const Color(0xFFFFFFFF);
+  final List<Color> _pageBgColors = [
+    const Color(0xFFFFFFFF), // White
+    const Color(0xFFF7F7F7), // Off-white
+    const Color(0xFFFFF9C4), // Soft Yellow
+    const Color(0xFFE0F2F1), // Mint
+    const Color(0xFF1C1C1E), // Dark Slate
+    const Color(0xFF000000), // Black
+  ];
+
   final List<Color> _colors = [
     const Color(0xFF006a60),
     const Color(0xFF24389c),
@@ -46,6 +56,9 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
     super.initState();
     if (widget.existingDrawing != null) {
       _paths = List.from(widget.existingDrawing!.paths);
+      if (widget.existingDrawing!.backgroundColorValue != null) {
+        _canvasBackgroundColor = Color(widget.existingDrawing!.backgroundColorValue!);
+      }
     }
     _updateToolSettings();
   }
@@ -66,7 +79,7 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
 
   Color get _activeColor {
     if (_selectedTool == DrawingTool.eraser) {
-      return const Color(0xFFFFFFFF); // Background color
+      return _canvasBackgroundColor; // Background color
     }
     if (_selectedTool == DrawingTool.brush) {
       return _selectedColor.withValues(alpha: 0.5);
@@ -184,6 +197,7 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         previewImagePath: previewPath,
+        backgroundColorValue: _canvasBackgroundColor.toARGB32(),
       );
       provider.addDrawing(newDrawing);
     } else {
@@ -194,6 +208,7 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
         createdAt: widget.existingDrawing!.createdAt,
         updatedAt: DateTime.now(),
         previewImagePath: previewPath ?? widget.existingDrawing!.previewImagePath,
+        backgroundColorValue: _canvasBackgroundColor.toARGB32(),
       );
       provider.updateDrawing(updatedDrawing);
     }
@@ -203,12 +218,57 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
     }
   }
 
+  void _showBgColorPicker() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        title: const Text('Page Color'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: _pageBgColors.map((color) => GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _canvasBackgroundColor = color;
+                  });
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _canvasBackgroundColor == color 
+                          ? CupertinoColors.activeBlue 
+                          : CupertinoColors.systemGrey4,
+                      width: _canvasBackgroundColor == color ? 3 : 1,
+                    ),
+                  ),
+                ),
+              )).toList(),
+            ),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = CupertinoTheme.of(context).brightness == Brightness.dark;
 
     return CupertinoPageScaffold(
-      backgroundColor: const Color(0xFFFFFFFF), // Canvas is always white for drawing visibility
+      backgroundColor: _canvasBackgroundColor,
       navigationBar: CupertinoNavigationBar(
         middle: const Text('Canvas'),
         backgroundColor: (isDark ? const Color(0xFF1C1C1E) : CupertinoColors.systemGroupedBackground).withValues(alpha: 0.8),
@@ -216,6 +276,12 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: _showBgColorPicker,
+              child: const Icon(CupertinoIcons.circle_righthalf_fill),
+            ),
+            const SizedBox(width: 8),
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: _saveToGallery,
@@ -243,7 +309,7 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
                 child: RepaintBoundary(
                   key: _globalKey,
                   child: Container(
-                    color: const Color(0xFFFFFFFF),
+                    color: _canvasBackgroundColor,
                     child: CustomPaint(
                       painter: _SmoothDrawingPainter(_paths),
                       size: Size.infinite,
@@ -266,76 +332,83 @@ class _CanvasEditorScreenState extends State<CanvasEditorScreen> {
                     opacity: 0.85,
                     borderRadius: BorderRadius.circular(30),
                     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Tools
-                          _buildToolIcon(CupertinoIcons.pencil, DrawingTool.pen, 'Pen'),
-                          const SizedBox(width: 12),
-                          _buildToolIcon(CupertinoIcons.paintbrush, DrawingTool.brush, 'Brush'),
-                          const SizedBox(width: 12),
-                          _buildToolIcon(CupertinoIcons.clear_fill, DrawingTool.eraser, 'Eraser'),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            width: 1,
-                            height: 24,
-                            color: CupertinoColors.separator.resolveFrom(context),
-                          ),
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: _paths.isNotEmpty ? () {
-                              setState(() { _paths.removeLast(); });
-                            } : null,
-                            child: Icon(
-                              CupertinoIcons.arrow_counterclockwise, 
-                              color: _paths.isNotEmpty ? CupertinoColors.label.resolveFrom(context) : CupertinoColors.systemGrey,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // Tools
+                                _buildToolIcon(CupertinoIcons.pencil, DrawingTool.pen, 'Pen'),
+                                const SizedBox(width: 12),
+                                _buildToolIcon(CupertinoIcons.paintbrush, DrawingTool.brush, 'Brush'),
+                                const SizedBox(width: 12),
+                                _buildToolIcon(CupertinoIcons.clear_fill, DrawingTool.eraser, 'Eraser'),
+                                Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                                  width: 1,
+                                  height: 24,
+                                  color: CupertinoColors.separator.resolveFrom(context),
+                                ),
+                                CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: _paths.isNotEmpty ? () {
+                                    setState(() { _paths.removeLast(); });
+                                  } : null,
+                                  child: Icon(
+                                    CupertinoIcons.arrow_counterclockwise, 
+                                    color: _paths.isNotEmpty ? CupertinoColors.label.resolveFrom(context) : CupertinoColors.systemGrey,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {
+                                    setState(() { _paths.clear(); });
+                                  },
+                                  child: const Icon(CupertinoIcons.trash, color: CupertinoColors.destructiveRed),
+                                ),
+                                
+                                Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                                  width: 1,
+                                  height: 24,
+                                  color: CupertinoColors.separator.resolveFrom(context),
+                                ),
+                                
+                                // Colors
+                                ..._colors.map((color) => _buildColorButton(color)),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              setState(() { _paths.clear(); });
+                        ),
+                        
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          width: 1,
+                          height: 24,
+                          color: CupertinoColors.separator.resolveFrom(context),
+                        ),
+                        
+                        // Thickness Slider
+                        const Icon(CupertinoIcons.circle, size: 10, color: CupertinoColors.systemGrey),
+                        SizedBox(
+                          width: 80,
+                          child: CupertinoSlider(
+                            value: _strokeWidth,
+                            min: 1.0,
+                            max: 40.0,
+                            activeColor: CupertinoColors.activeBlue,
+                            onChanged: (val) {
+                              setState(() { _strokeWidth = val; });
                             },
-                            child: const Icon(CupertinoIcons.trash, color: CupertinoColors.destructiveRed),
                           ),
-                          
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            width: 1,
-                            height: 24,
-                            color: CupertinoColors.separator.resolveFrom(context),
-                          ),
-                          
-                          // Colors
-                          ..._colors.map((color) => _buildColorButton(color)),
-                          
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            width: 1,
-                            height: 24,
-                            color: CupertinoColors.separator.resolveFrom(context),
-                          ),
-                          
-                          // Thickness Slider
-                          const Icon(CupertinoIcons.circle, size: 10, color: CupertinoColors.systemGrey),
-                          SizedBox(
-                            width: 120,
-                            child: CupertinoSlider(
-                              value: _strokeWidth,
-                              min: 1.0,
-                              max: 40.0,
-                              activeColor: CupertinoColors.activeBlue,
-                              onChanged: (val) {
-                                setState(() { _strokeWidth = val; });
-                              },
-                            ),
-                          ),
-                          const Icon(CupertinoIcons.circle_fill, size: 24, color: CupertinoColors.systemGrey),
-                        ],
-                      ),
+                        ),
+                        const Icon(CupertinoIcons.circle_fill, size: 24, color: CupertinoColors.systemGrey),
+                      ],
                     ),
                   ),
                 ),
