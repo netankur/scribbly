@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribbly - Workspaces</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#2f3037",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#713700",
+                      "on-tertiary-container": "#ffc7a2",
+                      "on-surface": "#1a1b22",
+                      "surface-tint": "#4355b9",
+                      "tertiary": "#6c3400",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#85f6e5",
+                      "on-tertiary-fixed": "#301400",
+                      "outline": "#757684",
+                      "on-primary-fixed": "#00105c",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f4f2fc",
+                      "tertiary-fixed-dim": "#ffb784",
+                      "tertiary-fixed": "#ffdcc6",
+                      "on-error": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#bac3ff",
+                      "on-background": "#1a1b22",
+                      "background": "#ffffff", /* clean white background */
+                      "surface-variant": "#e3e1ea",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#f2eff9",
+                      "on-secondary": "#ffffff",
+                      "surface": "#ffffff",
+                      "secondary-container": "#85f6e5",
+                      "on-surface-variant": "#454652",
+                      "surface-container-high": "#e9e7f0",
+                      "secondary-fixed-dim": "#67d9c9",
+                      "inverse-primary": "#bac3ff",
+                      "primary-container": "#3f51b5",
+                      "on-primary-fixed-variant": "#293ca0",
+                      "surface-dim": "#dbd9e2",
+                      "surface-container": "#efedf6",
+                      "tertiary-container": "#8f4700",
+                      "on-secondary-fixed-variant": "#005048",
+                      "primary": "#3f51b5",
+                      "on-secondary-fixed": "#00201c",
+                      "secondary": "#006a60",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#fbf8ff",
+                      "primary-fixed": "#dee0ff",
+                      "surface-container-highest": "#e3e1ea",
+                      "on-primary-container": "#cacfff",
+                      "on-secondary-container": "#007166",
+                      "outline-variant": "#c5c5d4"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "1rem", /* 16px */
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-tablet": "24px",
+                      "xl": "32px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "margin-mobile": "16px",
+                      "lg": "24px",
+                      "base": "8px",
+                      "sm": "8px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "display": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "title-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #ffffff; color: #1a1b22; }
+        .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-smoothing: antialiased; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background flex h-screen overflow-hidden antialiased font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Drawer for Desktop -->
+<nav class="hidden md:flex flex-col bg-surface-container-low h-full w-80 rounded-r-xl shadow-sm py-lg space-y-xs z-40">
+<div class="px-lg pb-md">
+<span class="font-headline-lg text-headline-lg text-primary">Scribbly</span>
+</div>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-title-md text-title-md">Notes</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">brush</span>
+<span class="font-title-md text-title-md">Canvas</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-title-md text-title-md">Tasks</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-title-md text-title-md font-semibold">Files</span>
+</a>
+<div class="mt-auto px-4 pt-8">
+<div class="bg-surface-container p-4 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Storage</span>
+<span class="font-label-md text-label-md text-primary font-bold">85%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mb-2">
+<div class="bg-primary h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface-variant block text-right">4.25GB of 5GB used</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full relative overflow-y-auto w-full md:pb-0 pb-[80px]">
+<!-- Mobile Top App Bar -->
+<header class="md:hidden flex items-center justify-between px-margin-mobile h-16 w-full top-0 sticky bg-background z-30">
+<button class="text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex flex-col items-center">
+<span class="font-headline-md text-headline-md font-bold text-primary">Scribbly</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Workspaces</span>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<div class="px-margin-mobile md:px-margin-tablet py-md flex-1 max-w-7xl mx-auto w-full">
+<!-- Header Text (Desktop) -->
+<div class="hidden md:flex flex-col mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold">Workspaces</h1>
+</div>
+<!-- Global Search Bar -->
+<div class="relative mb-lg w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-xl font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder-on-surface-variant shadow-sm" placeholder="Search workspaces, files, and notes..." type="text"/>
+</div>
+<!-- Categories (Horizontal Scroll) -->
+<div class="flex overflow-x-auto hide-scrollbar space-x-2 mb-lg pb-1">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full font-label-lg whitespace-nowrap shadow-sm hover:opacity-90 transition-opacity">All</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant border border-outline-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Notes</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant border border-outline-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Canvas</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant border border-outline-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Tasks</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant border border-outline-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-variant transition-colors">Documents</button>
+</div>
+<!-- Quick Access Grid -->
+<section class="mb-xl">
+<h2 class="font-title-lg text-title-lg text-on-surface mb-md font-semibold">Quick Access</h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-md">
+<button class="bg-surface-container-low p-md rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-variant transition-colors shadow-sm group">
+<div class="w-12 h-12 bg-primary-fixed text-primary rounded-full flex items-center justify-center mb-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Notes &amp; Drafts</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">42 items</span>
+</button>
+<button class="bg-surface-container-low p-md rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-variant transition-colors shadow-sm group">
+<div class="w-12 h-12 bg-secondary-container text-secondary rounded-full flex items-center justify-center mb-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">brush</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Canvas Sketches</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">18 items</span>
+</button>
+<button class="bg-surface-container-low p-md rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-variant transition-colors shadow-sm group">
+<div class="w-12 h-12 bg-[#FFDF99] text-[#B87000] rounded-full flex items-center justify-center mb-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Task Lists</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">7 active</span>
+</button>
+<button class="bg-surface-container-low p-md rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-variant transition-colors shadow-sm group">
+<div class="w-12 h-12 bg-[#CCE8D6] text-[#4B6354] rounded-full flex items-center justify-center mb-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">insert_drive_file</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">PDFs &amp; Docs</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1">24 items</span>
+</button>
+</div>
+</section>
+<!-- Unified Feed (Recent Items) -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-title-lg text-title-lg text-on-surface font-semibold">Recent Activity</h2>
+<button class="text-primary font-label-lg hover:underline">View All</button>
+</div>
+<div class="space-y-2">
+<!-- Feed Item 1 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-xl transition-colors group cursor-pointer border border-transparent hover:border-outline-variant shadow-sm bg-[#fafafa]">
+<div class="flex items-center space-x-4 overflow-hidden">
+<div class="w-10 h-10 bg-primary-fixed text-primary rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="truncate">
+<p class="font-title-md text-title-md text-on-surface truncate">Q4 Marketing Strategy</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Note • 2h ago</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+<!-- Feed Item 2 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-xl transition-colors group cursor-pointer border border-transparent hover:border-outline-variant shadow-sm bg-[#fafafa]">
+<div class="flex items-center space-x-4 overflow-hidden">
+<div class="w-10 h-10 bg-secondary-container text-secondary rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">brush</span>
+</div>
+<div class="truncate">
+<p class="font-title-md text-title-md text-on-surface truncate">Homepage Redesign V2</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Canvas • Yesterday</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+<!-- Feed Item 3 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-xl transition-colors group cursor-pointer border border-transparent hover:border-outline-variant shadow-sm bg-[#fafafa]">
+<div class="flex items-center space-x-4 overflow-hidden">
+<div class="w-10 h-10 bg-[#FFDF99] text-[#B87000] rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="truncate">
+<p class="font-title-md text-title-md text-on-surface truncate">Weekly Sprints</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Task List • Oct 24</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+<!-- Feed Item 4 -->
+<div class="flex items-center justify-between p-3 hover:bg-surface-container-low rounded-xl transition-colors group cursor-pointer border border-transparent hover:border-outline-variant shadow-sm bg-[#fafafa]">
+<div class="flex items-center space-x-4 overflow-hidden">
+<div class="w-10 h-10 bg-[#CCE8D6] text-[#4B6354] rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">insert_drive_file</span>
+</div>
+<div class="truncate">
+<p class="font-title-md text-title-md text-on-surface truncate">Client_Brief_Final.pdf</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Document • Oct 22</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button aria-label="Create New" class="fixed bottom-[100px] md:bottom-lg right-margin-mobile md:right-margin-tablet w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow z-40 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+<!-- Mobile Bottom Navigation Bar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-background border-t border-outline-variant flex justify-around items-center h-20 px-2 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 transition-transform p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 transition-transform p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md mt-1">Notes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 transition-transform p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined">brush</span>
+<span class="font-label-md text-label-md mt-1">Canvas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 transition-transform p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-label-md text-label-md mt-1">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-colors active:scale-90 transition-transform p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-label-md text-label-md mt-1">Files</span>
+</a>
+</nav>
+</body></html>

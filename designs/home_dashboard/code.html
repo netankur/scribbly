@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Scribbly - Home Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary": "#006a60",
+                        "outline-variant": "#c5c5d4",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1a1b22",
+                        "inverse-on-surface": "#f2eff9",
+                        "surface-container": "#efedf6",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#4355b9",
+                        "inverse-surface": "#2f3037",
+                        "surface-variant": "#e3e1ea",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "background": "#fbf8ff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-tertiary-fixed": "#301400",
+                        "primary-fixed-dim": "#bac3ff",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "surface-container-high": "#e9e7f0",
+                        "on-primary-fixed": "#00105c",
+                        "tertiary-container": "#8f4700",
+                        "surface-dim": "#dbd9e2",
+                        "primary": "#24389c",
+                        "on-background": "#1a1b22",
+                        "primary-fixed": "#dee0ff",
+                        "outline": "#757684",
+                        "on-tertiary-container": "#ffc7a2",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "on-primary-container": "#cacfff",
+                        "on-primary-fixed-variant": "#293ca0",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-container-highest": "#e3e1ea",
+                        "primary-container": "#3f51b5",
+                        "tertiary": "#6c3400",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#007166",
+                        "secondary-container": "#85f6e5",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#454652",
+                        "inverse-primary": "#bac3ff",
+                        "surface-bright": "#fbf8ff",
+                        "surface": "#fbf8ff",
+                        "surface-container-low": "#f4f2fc",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#85f6e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "12px",
+                        "xl": "32px",
+                        "margin-tablet": "24px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-lg": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "label-md": ["11px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .pt-safe { padding-top: env(safe-area-inset-top); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-safe">
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden w-full top-0 sticky bg-background z-40 flex items-center justify-between px-margin-mobile h-16 w-full">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 text-primary">
+<span class="material-symbols-outlined text-24">menu</span>
+</button>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">Scribbly</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 text-primary">
+<span class="material-symbols-outlined text-24">search</span>
+</button>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNav (Desktop) -->
+<nav class="hidden md:flex h-full w-80 rounded-r-xl bg-surface-container-low shadow-sm flex-col py-lg space-y-xs sticky top-0 z-40 h-screen overflow-y-auto">
+<div class="px-margin-tablet pb-lg">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">Scribbly</h1>
+</div>
+<a class="bg-secondary-container text-on-secondary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-title-md text-title-md">Notes</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">brush</span>
+<span class="font-title-md text-title-md">Canvas</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-title-md text-title-md">Tasks</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-title-md text-title-md">Files</span>
+</a>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto w-full pb-24 md:pb-lg">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet py-md md:py-lg space-y-lg md:space-y-xl">
+<!-- Greeting & Search (Desktop) -->
+<div class="hidden md:flex justify-between items-center w-full">
+<div>
+<h2 class="font-display text-display text-on-surface">Good Morning, Alex</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Let's see what's on your mind today.</p>
+</div>
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-full bg-surface-container-high border-none text-on-surface placeholder:text-on-surface-variant focus:ring-2 focus:ring-primary focus:outline-none font-body-md text-body-md" placeholder="Search notes, tasks..." type="text"/>
+</div>
+</div>
+<!-- Greeting (Mobile) -->
+<div class="md:hidden mt-sm mb-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Good Morning, Alex</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Let's see what's on your mind today.</p>
+</div>
+<!-- Quick Actions (Bento Grid Style) -->
+<section>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-md">Quick Create</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<button class="flex flex-col items-start p-md rounded-[16px] bg-[#E8EAF6] hover:opacity-90 transition-opacity active:scale-95 group text-left">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<span class="font-title-md text-title-md text-[#1A237E]">New Note</span>
+<span class="font-label-md text-label-md text-[#3949AB] mt-xs">Blank document</span>
+</button>
+<button class="flex flex-col items-start p-md rounded-[16px] bg-[#E0F2F1] hover:opacity-90 transition-opacity active:scale-95 group text-left">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">draw</span>
+</div>
+<span class="font-title-md text-title-md text-[#004D40]">Draw</span>
+<span class="font-label-md text-label-md text-[#00796B] mt-xs">Blank canvas</span>
+</button>
+<button class="flex flex-col items-start p-md rounded-[16px] bg-[#FFF8E1] hover:opacity-90 transition-opacity active:scale-95 group text-left">
+<div class="w-10 h-10 rounded-full bg-[#FFE082] text-[#3E2723] flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">sticky_note_2</span>
+</div>
+<span class="font-title-md text-title-md text-[#FF6F00]">Sticky</span>
+<span class="font-label-md text-label-md text-[#FF8F00] mt-xs">Quick thought</span>
+</button>
+<button class="flex flex-col items-start p-md rounded-[16px] bg-[#FBE9E7] hover:opacity-90 transition-opacity active:scale-95 group text-left">
+<div class="w-10 h-10 rounded-full bg-[#FFCCBC] text-[#BF360C] flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">checklist</span>
+</div>
+<span class="font-title-md text-title-md text-[#D84315]">Checklist</span>
+<span class="font-label-md text-label-md text-[#E64A19] mt-xs">To-do list</span>
+</button>
+</div>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-margin-tablet">
+<!-- Left Column (Notes & Canvas) -->
+<div class="md:col-span-8 space-y-lg md:space-y-xl">
+<!-- Recently Edited (Horizontal Scroll) -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Recently Edited</h3>
+<button class="font-label-lg text-label-lg text-primary hover:underline">View All</button>
+</div>
+<div class="flex gap-gutter overflow-x-auto pb-sm hide-scrollbar snap-x snap-mandatory -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+<div class="snap-start shrink-0 w-64 p-md bg-[#F5F5F5] rounded-[16px] flex flex-col justify-between hover:bg-surface-container-high transition-colors cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="font-title-md text-title-md text-on-surface line-clamp-1">Q3 Product Strategy</span>
+<span class="material-symbols-outlined text-outline text-20">description</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Key objectives for Q3 include expanding user base by 15% and launching the new collaboration features. We need to focus on...</p>
+</div>
+<div class="mt-md flex justify-between items-center font-label-md text-label-md text-on-surface-variant">
+<span>2 hours ago</span>
+<div class="flex gap-xs">
+<span class="px-2 py-1 bg-primary/10 text-primary rounded-md">Work</span>
+</div>
+</div>
+</div>
+<div class="snap-start shrink-0 w-64 p-md bg-[#F5F5F5] rounded-[16px] flex flex-col justify-between hover:bg-surface-container-high transition-colors cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="font-title-md text-title-md text-on-surface line-clamp-1">Grocery List</span>
+<span class="material-symbols-outlined text-outline text-20">checklist</span>
+</div>
+<ul class="font-body-md text-body-md text-on-surface-variant space-y-1">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-16 text-outline">check_box_outline_blank</span> Almond milk</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-16 text-primary">check_box</span> Avocados (3)</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-16 text-outline">check_box_outline_blank</span> Coffee beans</li>
+</ul>
+</div>
+<div class="mt-md flex justify-between items-center font-label-md text-label-md text-on-surface-variant">
+<span>Yesterday</span>
+<div class="flex gap-xs">
+<span class="px-2 py-1 bg-secondary/10 text-secondary rounded-md">Personal</span>
+</div>
+</div>
+</div>
+<div class="snap-start shrink-0 w-64 p-md bg-[#F5F5F5] rounded-[16px] flex flex-col justify-between hover:bg-surface-container-high transition-colors cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="font-title-md text-title-md text-on-surface line-clamp-1">App UI Concept</span>
+<span class="material-symbols-outlined text-outline text-20">brush</span>
+</div>
+<div class="h-20 bg-surface-variant rounded-lg flex items-center justify-center mt-2 relative overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-multiply" data-alt="A stylized vector illustration showing abstract wireframe UI components, subtle pastel colors, clean modern tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM2j63XS3JVl8fYIEVkEzEzs1yFZ5Xr-_2a3AX60Fw55F-JW6pCcQKvnUZjZYEbj6FPeMfZDuFNziTc7o8hYqjYRYMONRRJyomv-utFkcOPZdEIOvYa56vLJi2O9Q5HDtX6ow3veVmAUs3LuwfWUFeV7swN8McWOHDvJ4oloeY35nKZ7M_5ozaUdBhwOc5ap_8YflmZYWRpG5BKWQ8w0rKjslBx--QQn8qiT2ZTkAOHyt6lG2sjYxwO6oq262OUBwAO8j31H9KRSh_"/>
+</div>
+</div>
+<div class="mt-md flex justify-between items-center font-label-md text-label-md text-on-surface-variant">
+<span>Oct 12</span>
+<div class="flex gap-xs">
+<span class="px-2 py-1 bg-tertiary/10 text-tertiary rounded-md">Design</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pinned Notes (Grid) -->
+<section>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-20" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+                                Pinned
+                            </h3>
+<div class="grid grid-cols-2 gap-gutter">
+<div class="p-md bg-[#FFF9C4] rounded-[16px] hover:shadow-sm transition-shadow cursor-pointer relative group">
+<button class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[#FBC02D] hover:text-[#F57F17]">
+<span class="material-symbols-outlined text-20" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+</button>
+<h4 class="font-title-md text-title-md text-[#F57F17] mb-1">Wi-Fi Password</h4>
+<p class="font-body-md text-body-md text-[#F9A825] font-mono mt-2 bg-white/50 inline-block px-2 py-1 rounded">Netgear_5G_Fast</p>
+<p class="font-body-md text-body-md text-[#F9A825] font-mono mt-1 bg-white/50 inline-block px-2 py-1 rounded">H3ll0W0rld2024!</p>
+</div>
+<div class="p-md bg-[#F5F5F5] rounded-[16px] hover:shadow-sm transition-shadow cursor-pointer relative group">
+<button class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface">
+<span class="material-symbols-outlined text-20" style="font-variation-settings: 'FILL' 1;">push_pin</span>
+</button>
+<h4 class="font-title-md text-title-md text-on-surface mb-1">Meeting Notes Template</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 text-sm">Standard template for weekly syncs. Includes attendees, agenda, and action items...</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Tasks & Stats) -->
+<div class="md:col-span-4 space-y-lg md:space-y-xl">
+<!-- Today's Tasks -->
+<section class="bg-surface-container-low rounded-[24px] p-md border border-outline-variant/20">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Today's Tasks</h3>
+<span class="font-label-md text-label-md text-on-surface-variant bg-surface-variant px-2 py-1 rounded-full">2/5 Done</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-surface-variant rounded-full mb-md overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 40%;"></div>
+</div>
+<ul class="space-y-sm">
+<li class="flex items-start gap-3 p-2 hover:bg-surface-variant/50 rounded-lg transition-colors cursor-pointer group">
+<button class="mt-0.5 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-20">radio_button_unchecked</span>
+</button>
+<div>
+<p class="font-title-md text-title-md text-on-surface text-sm">Review Q3 Report draft</p>
+<div class="flex gap-2 mt-1">
+<span class="font-label-md text-label-md text-error flex items-center gap-1"><span class="material-symbols-outlined text-12">schedule</span> 2:00 PM</span>
+<span class="font-label-md text-label-md px-1.5 py-0.5 bg-[#FFECB3]/50 text-[#FF8F00] rounded">High</span>
+</div>
+</div>
+</li>
+<li class="flex items-start gap-3 p-2 hover:bg-surface-variant/50 rounded-lg transition-colors cursor-pointer group">
+<button class="mt-0.5 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-20">radio_button_unchecked</span>
+</button>
+<div>
+<p class="font-title-md text-title-md text-on-surface text-sm">Call design agency</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Discuss branding updates</p>
+</div>
+</li>
+<li class="flex items-start gap-3 p-2 hover:bg-surface-variant/50 rounded-lg transition-colors cursor-pointer group">
+<button class="mt-0.5 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-20">radio_button_unchecked</span>
+</button>
+<div>
+<p class="font-title-md text-title-md text-on-surface text-sm">Book flights to SF</p>
+</div>
+</li>
+<!-- Completed Task Example -->
+<li class="flex items-start gap-3 p-2 rounded-lg opacity-60">
+<button class="mt-0.5 text-primary">
+<span class="material-symbols-outlined text-20" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<div>
+<p class="font-title-md text-title-md text-on-surface text-sm line-through decoration-on-surface-variant/50">Morning standup</p>
+</div>
+</li>
+</ul>
+<button class="w-full mt-md py-2 flex items-center justify-center gap-2 text-primary font-label-lg text-label-lg hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-18">add</span> Add Task
+                            </button>
+</section>
+<!-- Productivity Stats (Glassmorphism Lite) -->
+<section class="bg-gradient-to-br from-primary-container/10 to-secondary-container/10 rounded-[24px] p-md border border-white/20 backdrop-blur-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-sm">This Week</h3>
+<div class="flex gap-md">
+<div class="flex-1 bg-white/50 rounded-xl p-3 text-center">
+<span class="block font-display text-display text-primary leading-tight">14</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Notes Created</span>
+</div>
+<div class="flex-1 bg-white/50 rounded-xl p-3 text-center">
+<span class="block font-display text-display text-secondary leading-tight">28</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Tasks Done</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-24 right-4 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.15)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-50">
+<span class="material-symbols-outlined text-24">add</span>
+</button>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 border-t border-outline-variant bg-background pb-safe flex justify-around items-center h-20 w-full px-2">
+<!-- Active Tab: Home -->
+<a class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-colors active:scale-90 w-16 rounded-lg py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 w-16 rounded-lg py-1" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md mt-1">Notes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 w-16 rounded-lg py-1" href="#">
+<span class="material-symbols-outlined">brush</span>
+<span class="font-label-md text-label-md mt-1">Canvas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 w-16 rounded-lg py-1" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-label-md text-label-md mt-1">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors active:scale-90 w-16 rounded-lg py-1" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md mt-1">Files</span>
+</a>
+</nav>
+</body></html>

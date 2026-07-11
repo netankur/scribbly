@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribbly - Settings</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Injection -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdcc6",
+                    "secondary": "#006a60",
+                    "outline-variant": "#c5c5d4",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1a1b22",
+                    "inverse-on-surface": "#f2eff9",
+                    "surface-container": "#efedf6",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#4355b9",
+                    "inverse-surface": "#2f3037",
+                    "surface-variant": "#e3e1ea",
+                    "secondary-fixed-dim": "#67d9c9",
+                    "background": "#fbf8ff",
+                    "on-secondary-fixed-variant": "#005048",
+                    "on-tertiary-fixed": "#301400",
+                    "primary-fixed-dim": "#bac3ff",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "surface-container-high": "#e9e7f0",
+                    "on-primary-fixed": "#00105c",
+                    "tertiary-container": "#8f4700",
+                    "surface-dim": "#dbd9e2",
+                    "primary": "#24389c",
+                    "on-background": "#1a1b22",
+                    "primary-fixed": "#dee0ff",
+                    "outline": "#757684",
+                    "on-tertiary-container": "#ffc7a2",
+                    "tertiary-fixed-dim": "#ffb784",
+                    "on-primary-container": "#cacfff",
+                    "on-primary-fixed-variant": "#293ca0",
+                    "on-secondary-fixed": "#00201c",
+                    "surface-container-highest": "#e3e1ea",
+                    "primary-container": "#3f51b5",
+                    "tertiary": "#6c3400",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#007166",
+                    "secondary-container": "#85f6e5",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#454652",
+                    "inverse-primary": "#bac3ff",
+                    "surface-bright": "#fbf8ff",
+                    "surface": "#fbf8ff",
+                    "surface-container-low": "#f4f2fc",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#85f6e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "sm": "8px",
+                    "margin-mobile": "16px",
+                    "gutter": "12px",
+                    "xl": "32px",
+                    "margin-tablet": "24px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "title-md": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar (Adapted for Transactional/Sub-page intent) -->
+<header class="w-full top-0 sticky bg-background flex items-center justify-between px-margin-mobile h-16 z-20">
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface">Settings</h1>
+</div>
+<div>
+<!-- Empty trailing for focused intent -->
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 w-full max-w-2xl mx-auto px-margin-mobile py-md flex flex-col gap-lg">
+<!-- User Profile Card -->
+<section class="bg-surface-container-lowest p-md rounded-xl flex items-center gap-md border border-surface-container-high relative overflow-hidden group hover:border-primary-fixed-dim transition-colors">
+<!-- Subtle decorative gradient for premium feel -->
+<div class="absolute right-0 top-0 w-32 h-32 bg-primary-container/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<img alt="Alex Johnson Profile Picture" class="w-16 h-16 rounded-full object-cover shadow-sm z-10" data-alt="A clean, professional headshot of a young adult male with a friendly expression. He has neat hair and is wearing a dark, high-quality indigo t-shirt. The background is a soft, pristine white studio setting. The lighting is high-key, even, and modern, perfectly matching a premium light-mode corporate software aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKN0arTI5NK_5kRf8mLUdlNmLs9K6zvR4YPrB9szzP3HLz6At0z6gixj7RZg0I7ZtIsvPhsNN8EmKIahPPJcwkcKfvOzgAkusC8LCspZfmW0KaDHK93rOv1UogiWTVJzsaL5QaNtsRCOPCH5x3yRFJfq-ut4FzdAvgwjyIZsaJt84gei-0xp1IBHKAYFQhcbR8F7Fi2YNv7TcLLoDzmtX8OPlqfPFv2h3oDlED_CUUWQ_FgNJ0d4v22gvnvizhQFrOmKb1jqdFCsPy"/>
+<div class="flex flex-col z-10">
+<h2 class="font-title-lg text-title-lg text-on-surface">Alex Johnson</h2>
+<div class="flex items-center gap-xs mt-1">
+<span class="material-symbols-outlined text-primary text-[16px]">workspace_premium</span>
+<span class="font-label-md text-label-md text-primary tracking-wide">PREMIUM MEMBER</span>
+</div>
+</div>
+<button class="ml-auto w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant z-10">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</section>
+<!-- Settings Groups (Bento-style tight clusters) -->
+<div class="flex flex-col gap-md">
+<!-- Appearance Group -->
+<div class="flex flex-col gap-sm">
+<h3 class="font-label-lg text-label-lg text-primary px-sm uppercase">Appearance</h3>
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high overflow-hidden flex flex-col divide-y divide-surface-container-highest">
+<!-- Theme -->
+<button class="w-full flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">dark_mode</span>
+<span class="font-title-md text-title-md">Theme</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="font-body-md text-body-md">Light</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</button>
+<!-- Accent Color -->
+<button class="w-full flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">palette</span>
+<span class="font-title-md text-title-md">Accent Color</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-5 h-5 rounded-full bg-primary border-2 border-background shadow-sm"></div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</button>
+<!-- Font Size -->
+<button class="w-full flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">format_size</span>
+<span class="font-title-md text-title-md">Font Size</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="font-body-md text-body-md">Medium</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Data & Privacy Group -->
+<div class="flex flex-col gap-sm mt-sm">
+<h3 class="font-label-lg text-label-lg text-primary px-sm uppercase">Data &amp; Privacy</h3>
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high overflow-hidden flex flex-col divide-y divide-surface-container-highest">
+<!-- Backup & Restore -->
+<button class="w-full flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">backup</span>
+<span class="font-title-md text-title-md">Backup &amp; Restore</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<!-- Security -->
+<button class="w-full flex items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">security</span>
+<span class="font-title-md text-title-md">Security</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- System Group -->
+<div class="flex flex-col gap-sm mt-sm">
+<h3 class="font-label-lg text-label-lg text-primary px-sm uppercase">System</h3>
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container-high overflow-hidden flex flex-col">
+<!-- Notifications -->
+<div class="w-full flex items-center justify-between p-md">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-outline">notifications</span>
+<span class="font-title-md text-title-md">Notifications</span>
+</div>
+<!-- Custom Toggle Switch -->
+<button aria-pressed="true" class="w-12 h-6 bg-primary rounded-full relative transition-colors focus:outline-none">
+<div class="absolute right-1 top-1 w-4 h-4 bg-on-primary rounded-full shadow-sm transition-transform"></div>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="w-full flex flex-col items-center justify-center gap-sm py-xl text-center mt-auto">
+<span class="font-label-md text-label-md text-on-surface-variant tracking-widest">APP VERSION v2.4.0</span>
+<div class="flex items-center gap-md">
+<a class="font-body-md text-body-md text-primary hover:underline hover:text-primary-container transition-colors" href="#">About Scribbly</a>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<a class="font-body-md text-body-md text-primary hover:underline hover:text-primary-container transition-colors" href="#">Licenses</a>
+</div>
+</footer>
+</body></html>

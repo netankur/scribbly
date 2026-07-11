@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Scribbly - Tasks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#ffdcc6",
+                      "secondary": "#006a60",
+                      "outline-variant": "#c5c5d4",
+                      "on-error": "#ffffff",
+                      "on-surface": "#1a1b22",
+                      "inverse-on-surface": "#f2eff9",
+                      "surface-container": "#efedf6",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#4355b9",
+                      "inverse-surface": "#2f3037",
+                      "surface-variant": "#e3e1ea",
+                      "secondary-fixed-dim": "#67d9c9",
+                      "background": "#fbf8ff",
+                      "on-secondary-fixed-variant": "#005048",
+                      "on-tertiary-fixed": "#301400",
+                      "primary-fixed-dim": "#bac3ff",
+                      "on-tertiary-fixed-variant": "#713700",
+                      "surface-container-high": "#e9e7f0",
+                      "on-primary-fixed": "#00105c",
+                      "tertiary-container": "#8f4700",
+                      "surface-dim": "#dbd9e2",
+                      "primary": "#24389c",
+                      "on-background": "#1a1b22",
+                      "primary-fixed": "#dee0ff",
+                      "outline": "#757684",
+                      "on-tertiary-container": "#ffc7a2",
+                      "tertiary-fixed-dim": "#ffb784",
+                      "on-primary-container": "#cacfff",
+                      "on-primary-fixed-variant": "#293ca0",
+                      "on-secondary-fixed": "#00201c",
+                      "surface-container-highest": "#e3e1ea",
+                      "primary-container": "#3f51b5",
+                      "tertiary": "#6c3400",
+                      "error": "#ba1a1a",
+                      "on-secondary-container": "#007166",
+                      "secondary-container": "#85f6e5",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface-variant": "#454652",
+                      "inverse-primary": "#bac3ff",
+                      "surface-bright": "#fbf8ff",
+                      "surface": "#fbf8ff",
+                      "surface-container-low": "#f4f2fc",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#85f6e5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "sm": "8px",
+                      "margin-mobile": "16px",
+                      "gutter": "12px",
+                      "xl": "32px",
+                      "margin-tablet": "24px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "display": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "title-md": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "label-md": ["11px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        /* Swipe to delete/archive setup */
+        .swipe-item-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .swipe-actions-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            border-radius: 16px;
+            z-index: 0;
+        }
+        
+        .swipe-item-content {
+            position: relative;
+            z-index: 1;
+            background-color: #F5F5F5;
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+            touch-action: pan-y;
+        }
+        
+        /* Glassmorphism utility if needed for overlays */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #757684;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: #24389c;
+            border-color: #24389c;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col md:flex-row pb-[80px] md:pb-0">
+<!-- TopAppBar Mobile -->
+<header class="md:hidden flex items-center justify-between px-margin-mobile h-16 w-full top-0 sticky bg-background z-40">
+<button class="text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary">Scribbly</h1>
+<button class="text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+</header>
+<!-- Side Navigation Web -->
+<aside class="hidden md:flex flex-col py-lg space-y-xs h-screen w-80 rounded-r-xl bg-surface-container-low shadow-sm sticky top-0 shrink-0">
+<div class="px-lg pb-md">
+<h1 class="font-headline-lg text-headline-lg text-primary font-bold">Scribbly</h1>
+</div>
+<nav class="flex-1 flex flex-col gap-sm mt-4">
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="font-title-md text-title-md">Notes</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">brush</span>
+<span class="font-title-md text-title-md">Canvas</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-title-md text-title-md font-bold">Tasks</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">folder_open</span>
+<span class="font-title-md text-title-md">Files</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col w-full max-w-4xl mx-auto px-margin-mobile md:px-margin-tablet pb-xl">
+<!-- Header & Daily Goal -->
+<section class="py-md md:py-lg flex items-center justify-between">
+<div>
+<h2 class="font-display text-display text-on-background">Tasks</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Tuesday, Oct 24</p>
+</div>
+<div class="flex items-center gap-md bg-surface-container-low p-md rounded-xl">
+<div class="relative w-12 h-12">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle class="text-surface-variant stroke-current" cx="50" cy="50" fill="transparent" r="40" stroke-width="8"></circle>
+<circle class="text-primary stroke-current progress-ring__circle" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="251.2" stroke-dashoffset="75.36" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-label-md text-label-md font-bold text-primary">70%</span>
+</div>
+</div>
+<div class="hidden sm:block">
+<p class="font-title-md text-title-md text-on-background">Daily Goal</p>
+<p class="font-label-md text-label-md text-on-surface-variant">7 of 10 tasks</p>
+</div>
+</div>
+</section>
+<!-- Task Lists -->
+<div class="space-y-lg mt-md">
+<!-- Today -->
+<section>
+<div class="flex items-center justify-between mb-sm">
+<h3 class="font-title-lg text-title-lg text-on-background font-semibold">Today</h3>
+<span class="bg-surface-container-high text-on-surface-variant font-label-md text-label-md px-2 py-1 rounded-full">3</span>
+</div>
+<div class="space-y-sm">
+<!-- Task Item 1 -->
+<div class="swipe-item-container">
+<div class="swipe-actions-bg bg-secondary/10">
+<span class="material-symbols-outlined text-secondary">archive</span>
+<span class="material-symbols-outlined text-error">delete</span>
+</div>
+<div class="swipe-item-content p-md rounded-xl flex items-start gap-md">
+<input class="custom-checkbox mt-1" type="checkbox"/>
+<div class="flex-1">
+<div class="flex items-start justify-between gap-2">
+<p class="font-title-md text-title-md text-on-background leading-tight">Finalize Q3 Marketing Report</p>
+<div class="w-2 h-2 rounded-full bg-error shrink-0 mt-1.5" title="High Priority"></div>
+</div>
+<div class="flex items-center gap-3 mt-2">
+<span class="bg-[#006a60]/15 text-secondary font-label-md text-label-md px-2 py-1 rounded-lg inline-flex items-center gap-1">
+                                        Work
+                                    </span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 0;">schedule</span>
+                                        2:00 PM
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="swipe-item-container">
+<div class="swipe-actions-bg bg-secondary/10">
+<span class="material-symbols-outlined text-secondary">archive</span>
+<span class="material-symbols-outlined text-error">delete</span>
+</div>
+<div class="swipe-item-content p-md rounded-xl flex items-start gap-md">
+<input class="custom-checkbox mt-1" type="checkbox"/>
+<div class="flex-1">
+<div class="flex items-start justify-between gap-2">
+<p class="font-title-md text-title-md text-on-background leading-tight">Review wireframes with Design Team</p>
+<div class="w-2 h-2 rounded-full bg-tertiary shrink-0 mt-1.5" title="Medium Priority"></div>
+</div>
+<div class="flex items-center gap-3 mt-2">
+<span class="bg-[#006a60]/15 text-secondary font-label-md text-label-md px-2 py-1 rounded-lg inline-flex items-center gap-1">
+                                        Design
+                                    </span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 0;">schedule</span>
+                                        4:30 PM
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming -->
+<section>
+<div class="flex items-center justify-between mb-sm mt-4">
+<h3 class="font-title-lg text-title-lg text-on-background font-semibold">Upcoming</h3>
+<span class="bg-surface-container-high text-on-surface-variant font-label-md text-label-md px-2 py-1 rounded-full">2</span>
+</div>
+<div class="space-y-sm">
+<!-- Task Item 3 -->
+<div class="swipe-item-container">
+<div class="swipe-actions-bg bg-secondary/10">
+<span class="material-symbols-outlined text-secondary">archive</span>
+<span class="material-symbols-outlined text-error">delete</span>
+</div>
+<div class="swipe-item-content p-md rounded-xl flex items-start gap-md">
+<input class="custom-checkbox mt-1" type="checkbox"/>
+<div class="flex-1">
+<div class="flex items-start justify-between gap-2">
+<p class="font-title-md text-title-md text-on-background leading-tight">Client presentation prep</p>
+<div class="w-2 h-2 rounded-full bg-surface-variant shrink-0 mt-1.5" title="Low Priority"></div>
+</div>
+<div class="flex items-center gap-3 mt-2">
+<span class="bg-primary/15 text-primary font-label-md text-label-md px-2 py-1 rounded-lg inline-flex items-center gap-1">
+                                        Client
+                                    </span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 0;">calendar_month</span>
+                                        Tomorrow
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Completed (Collapsible) -->
+<section class="mt-4">
+<details class="group">
+<summary class="flex items-center justify-between mb-sm cursor-pointer list-none [&amp;::-webkit-details-marker]:hidden">
+<div class="flex items-center gap-2">
+<h3 class="font-title-lg text-title-lg text-on-surface-variant font-semibold">Completed</h3>
+<span class="bg-surface-container-high text-on-surface-variant font-label-md text-label-md px-2 py-1 rounded-full">7</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="space-y-sm mt-2 opacity-60">
+<!-- Completed Task 1 -->
+<div class="p-md rounded-xl flex items-start gap-md bg-[#F5F5F5]">
+<input checked="" class="custom-checkbox mt-1" disabled="" type="checkbox"/>
+<div class="flex-1 line-through text-on-surface-variant">
+<div class="flex items-start justify-between gap-2">
+<p class="font-title-md text-title-md leading-tight">Daily standup meeting</p>
+</div>
+<div class="flex items-center gap-3 mt-2">
+<span class="bg-outline-variant/30 font-label-md text-label-md px-2 py-1 rounded-lg inline-flex items-center gap-1">
+                                        Team
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+</details>
+</section>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-[100px] md:bottom-lg right-margin-mobile md:right-margin-tablet w-14 h-14 bg-primary text-on-primary rounded-[16px] shadow-[0_4px_8px_rgba(26,27,34,0.15)] flex items-center justify-center hover:bg-primary-container transition-colors z-30 active:scale-95">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 0;">add</span>
+</button>
+<!-- BottomNavBar Mobile -->
+<nav class="md:hidden flex justify-around items-center h-20 w-full px-2 pb-safe fixed bottom-0 z-50 bg-background border-t border-outline-variant/20">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors w-16 h-16 rounded-xl active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors w-16 h-16 rounded-xl active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="font-label-md text-label-md mt-1">Notes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors w-16 h-16 rounded-xl active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">brush</span>
+<span class="font-label-md text-label-md mt-1">Canvas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-colors w-16 h-16 rounded-xl active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md mt-1">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:bg-surface-container-low transition-colors w-16 h-16 rounded-xl active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">folder_open</span>
+<span class="font-label-md text-label-md mt-1">Files</span>
+</a>
+</nav>
+<script>
+        // Simple swipe-to-reveal logic mockup (visual only for demonstration)
+        const swipeItems = document.querySelectorAll('.swipe-item-content');
+        
+        swipeItems.forEach(item => {
+            let startX;
+            let currentX;
+            
+            item.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                item.style.transition = 'none';
+            }, {passive: true});
+            
+            item.addEventListener('touchmove', (e) => {
+                if(!startX) return;
+                currentX = e.touches[0].clientX;
+                const diff = currentX - startX;
+                
+                // Limit swipe distance
+                if(diff < -100) item.style.transform = `translateX(-100px)`;
+                else if(diff > 100) item.style.transform = `translateX(100px)`;
+                else item.style.transform = `translateX(${diff}px)`;
+            }, {passive: true});
+            
+            item.addEventListener('touchend', (e) => {
+                item.style.transition = 'transform 0.2s ease-out';
+                item.style.transform = 'translateX(0)';
+                startX = null;
+            });
+        });
+    </script>
+</body></html>

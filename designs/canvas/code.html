@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Scribbly - Canvas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary": "#006a60",
+                        "outline-variant": "#c5c5d4",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1a1b22",
+                        "inverse-on-surface": "#f2eff9",
+                        "surface-container": "#efedf6",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#4355b9",
+                        "inverse-surface": "#2f3037",
+                        "surface-variant": "#e3e1ea",
+                        "secondary-fixed-dim": "#67d9c9",
+                        "background": "#fbf8ff",
+                        "on-secondary-fixed-variant": "#005048",
+                        "on-tertiary-fixed": "#301400",
+                        "primary-fixed-dim": "#bac3ff",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "surface-container-high": "#e9e7f0",
+                        "on-primary-fixed": "#00105c",
+                        "tertiary-container": "#8f4700",
+                        "surface-dim": "#dbd9e2",
+                        "primary": "#24389c",
+                        "on-background": "#1a1b22",
+                        "primary-fixed": "#dee0ff",
+                        "outline": "#757684",
+                        "on-tertiary-container": "#ffc7a2",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "on-primary-container": "#cacfff",
+                        "on-primary-fixed-variant": "#293ca0",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-container-highest": "#e3e1ea",
+                        "primary-container": "#3f51b5",
+                        "tertiary": "#6c3400",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#007166",
+                        "secondary-container": "#85f6e5",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#454652",
+                        "inverse-primary": "#bac3ff",
+                        "surface-bright": "#fbf8ff",
+                        "surface": "#fbf8ff",
+                        "surface-container-low": "#f4f2fc",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#85f6e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "12px",
+                        "xl": "32px",
+                        "margin-tablet": "24px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "safe": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-lg": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "label-md": ["11px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .dotted-canvas {
+            background-color: #fbf8ff;
+            background-image: radial-gradient(#c5c5d4 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Hide scrollbars for toolbars if they overflow */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background h-screen w-screen overflow-hidden flex flex-col font-body-md select-none">
+<!-- TopAppBar (Mobile & Tablet) / Canvas Controls Header -->
+<header class="bg-background dark:bg-background w-full top-0 sticky flex items-center justify-between px-margin-mobile h-16 shrink-0 z-40 border-b border-outline-variant/30 hidden md:flex">
+<!-- Leading / Brand -->
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Scribbly</span>
+</div>
+<!-- Canvas specific top controls -->
+<div class="flex items-center gap-sm bg-surface-container-low rounded-full px-xs py-xs">
+<button class="p-2 text-on-surface hover:bg-surface-variant rounded-full transition-colors" title="Undo">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors" title="Redo">
+<span class="material-symbols-outlined">redo</span>
+</button>
+<div class="w-px h-6 bg-outline-variant mx-1"></div>
+<span class="font-title-md text-title-md text-on-surface px-2">100%</span>
+<div class="w-px h-6 bg-outline-variant mx-1"></div>
+<button class="w-8 h-8 rounded-full bg-[#006a60] border-2 border-background shadow-sm hover:scale-105 transition-transform" title="Current Color"></button>
+</div>
+<!-- Trailing -->
+<div class="flex items-center gap-sm">
+<button class="font-label-lg text-label-lg text-primary bg-primary-container/10 hover:bg-primary-container/20 px-4 py-2 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+                Export
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<div class="flex-1 flex relative overflow-hidden">
+<!-- Navigation Drawer (Desktop/Tablet) -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low h-full w-80 rounded-r-xl shadow-sm flex flex-col py-lg space-y-xs hidden md:flex shrink-0 z-30">
+<div class="px-6 pb-4">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">Scribbly</span>
+</div>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-title-md text-title-md">Notes</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 active:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">brush</span>
+<span class="font-title-md text-title-md font-semibold">Canvas</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-title-md text-title-md">Tasks</span>
+</a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-title-md text-title-md">Files</span>
+</a>
+</nav>
+<!-- Canvas Area -->
+<main class="flex-1 relative bg-surface-container-lowest overflow-hidden dotted-canvas cursor-crosshair group touch-none">
+<!-- Mobile Top Bar Overlay (Transparent) -->
+<div class="md:hidden absolute top-0 left-0 w-full p-margin-mobile flex justify-between items-start z-20 pointer-events-none">
+<!-- Undo/Redo Pill -->
+<div class="bg-surface/90 backdrop-blur-md rounded-full shadow-sm flex items-center p-1 pointer-events-auto border border-outline-variant/20">
+<button class="p-2 text-on-surface hover:bg-surface-variant rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<div class="w-px h-4 bg-outline-variant/50 mx-1"></div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full active:scale-95 transition-all">
+<span class="material-symbols-outlined">redo</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface/90 backdrop-blur-md shadow-sm border border-outline-variant/20 flex items-center justify-center text-primary pointer-events-auto active:scale-95 transition-transform">
+<span class="material-symbols-outlined">ios_share</span>
+</button>
+</div>
+</div>
+<!-- The Drawing Content (Simulated) -->
+<div class="absolute inset-0 w-full h-full opacity-60 pointer-events-none">
+<svg height="100%" viewbox="0 0 800 600" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M 150 200 Q 250 50 350 250 T 600 150" fill="transparent" stroke="#006a60" stroke-linecap="round" stroke-width="4"></path>
+<path d="M 200 300 C 250 400, 450 400, 500 250" fill="transparent" opacity="0.5" stroke="#24389c" stroke-linecap="round" stroke-width="8"></path>
+<circle cx="400" cy="300" fill="transparent" r="40" stroke="#ba1a1a" stroke-dasharray="5,5" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Floating Toolbar (Left Side) -->
+<div class="absolute left-margin-mobile md:left-margin-tablet top-1/2 -translate-y-1/2 bg-surface/95 backdrop-blur-xl border border-outline-variant/30 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.08)] py-3 px-2 flex flex-col items-center gap-3 z-20">
+<!-- Tool: Select -->
+<button class="w-10 h-10 rounded-full text-on-surface-variant hover:bg-surface-variant flex items-center justify-center transition-colors active:scale-90" title="Select">
+<span class="material-symbols-outlined">arrow_selector_tool</span>
+</button>
+<div class="w-6 h-px bg-outline-variant/40"></div>
+<!-- Tool: Pen (Active) -->
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container shadow-inner flex items-center justify-center transition-colors active:scale-90" title="Pen">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">draw</span>
+</button>
+<!-- Tool: Pencil -->
+<button class="w-10 h-10 rounded-full text-on-surface-variant hover:bg-surface-variant flex items-center justify-center transition-colors active:scale-90" title="Pencil">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<!-- Tool: Marker -->
+<button class="w-10 h-10 rounded-full text-on-surface-variant hover:bg-surface-variant flex items-center justify-center transition-colors active:scale-90" title="Marker">
+<span class="material-symbols-outlined">brush</span>
+</button>
+<!-- Tool: Eraser -->
+<button class="w-10 h-10 rounded-full text-on-surface-variant hover:bg-surface-variant flex items-center justify-center transition-colors active:scale-90" title="Eraser">
+<span class="material-symbols-outlined">ink_eraser</span>
+</button>
+<div class="w-6 h-px bg-outline-variant/40"></div>
+<!-- Tool: Shapes -->
+<button class="w-10 h-10 rounded-full text-on-surface-variant hover:bg-surface-variant flex items-center justify-center transition-colors active:scale-90" title="Shapes">
+<span class="material-symbols-outlined">category</span>
+</button>
+<!-- Active Color Indicator / Picker -->
+<div class="mt-2 pt-2 border-t border-outline-variant/40 w-full flex justify-center">
+<button class="w-8 h-8 rounded-full bg-[#006a60] border-2 border-background shadow-sm hover:scale-110 transition-transform md:hidden"></button>
+</div>
+</div>
+<!-- Zoom Controls (Bottom Right - Desktop) -->
+<div class="hidden md:flex absolute bottom-margin-tablet right-margin-tablet bg-surface/90 backdrop-blur-md rounded-full shadow-sm border border-outline-variant/20 p-1 items-center z-20">
+<button class="p-2 text-on-surface hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface px-2 w-12 text-center">100%</span>
+<button class="p-2 text-on-surface hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-background dark:bg-background fixed bottom-0 w-full z-50 border-t border-outline-variant/20 dark:border-outline md:hidden flex justify-around items-center h-20 px-2 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 w-16 h-full rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 w-16 h-full rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">description</span>
+<span class="font-label-md text-label-md">Notes</span>
+</a>
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 w-16 h-full rounded-xl" href="#">
+<div class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full mb-1 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">brush</span>
+</div>
+<span class="font-label-md text-label-md">Canvas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 w-16 h-full rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">check_circle</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 dark:text-on-surface-variant/60 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 w-16 h-full rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">folder_open</span>
+<span class="font-label-md text-label-md">Files</span>
+</a>
+</nav>
+<!-- Spacer for mobile bottom nav to prevent content hiding behind it -->
+<div class="h-20 w-full md:hidden shrink-0 bg-surface-container-lowest"></div>
+</body></html>
